@@ -1,5 +1,8 @@
 # DC-Fourier-Audio
 
+### Vídeo
+Apresentação de demonstração do trabalho presente [aqui](https://youtu.be/6mJUpj8y1og)
+
 ## Introdução
 
 O Fourier Audio é um programa de análise de áudio que gera um gráfico de frequências de um arquivo de áudio. Utilizando o algoritmo de divisão e conquista Fast Fourier Transform (FFT), ele identifica as frequências mais predominantes na série temporal do áudio e exibe em um gráfico. Quanto maior a predominância de uma frequência, maior o ponto que a representa no gráfico Frequência x Magnitude.
