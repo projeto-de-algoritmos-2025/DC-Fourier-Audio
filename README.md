@@ -24,7 +24,12 @@ O software foi desenvolvido em uma distribuição Linux, e o guia de uso terá c
 
 Inicialmente, clone o repositório, ou baixe o .zip e descompacte-o.
 
-Será necessário que sua máquina tenha o compilador g++, e o python instalados. Além disso, é necessário a biblioteca matplotlib do python, e o make para usar o Makefile.
+Será necessário que sua máquina tenha o compilador g++, e o python 3.11 instalados. Além disso, é necessário a biblioteca matplotlib do python, e o make para usar o Makefile.
+
+    sudo apt install make
+    sudo apt install python3-dev
+    pip install matplotlib
+
 
 Na raiz do repositório, use o comando:
 
