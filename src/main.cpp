@@ -1,10 +1,9 @@
-#include <bits/stdc++.h>
+#include <vector>
+#include <math.h>
+#include <complex>
 #include "matplotlib/matplotlibcpp.h"
-#define ll long long
-#define pii pair<ll,ll>
-#define oo LLONG_MAX
-#define vll vector<ll>
-#define range(i, x, n) for(i = x; i < n; i++)
+#include "audio.hpp"
+
 using namespace std;
 namespace plt = matplotlibcpp;
 const double PI {acos(-1.0)};
@@ -42,30 +41,27 @@ void fft(vector<complex<double>>& xs, bool invert = false){
     }
 }
 
-double sig(double t, double f0){
-    return 2.0*M_PI*f0*t;
-}
+int main(int argc, char** argv){
+    if(argc < 2){
+        cerr << "Audio file missing\n";
+        exit(-1);
+    }
+    
+    string path = argv[1];
+    cout << "Loading audio...\n";
+    AudioData data = loadAudioFile(path);
 
-double f(double x){
-    return sin(cos(x + x*x) + x*sin(x)) - cos(x)*cos(x);
-}
-
-double f2(double x){
-    return cos(x);
-}
-
-int main(){
-    ios::sync_with_stdio(false);
-    int n = 4096;
-    double val = 0, f0 = 10.0, rate = 1000.0;
+    int n = data.samples.size();
+    double val = 0, rate = data.sampleRate;
     vector<double> x(n), y(n);
     vector<complex<double>> Fy(n);
     for(int i=0; i<n; ++i) {
         double t = i / rate;
-        x[i] = sig(t, f0);
-        y[i] = f(sig(t,f0));
-        Fy[i] = {f(sig(t,f0)), 0};
+        x[i] = t;
+        y[i] = data.samples[i];
+        Fy[i] = {y[i], 0};
     }
+    cout << "Applying the transform...\n";
     fft(Fy);
     int nh = n / 2 + 1;
     double scale = 1.0 / n;
@@ -75,7 +71,6 @@ int main(){
         mag[i] = 2.0*abs(Fy[i])/n;
 
     }
-
     // Set the size of output image to 1200x780 pixels
     plt::figure();  
     // Plot line from given x and y data. Color is selected automatically.
@@ -88,6 +83,7 @@ int main(){
 
     plt::subplot(2, 1, 2);
     plt::plot(freq, mag);
+    plt::xlim(0.0, 1000.0);
     plt::xlabel("Frequency");
     plt::ylabel("Magnitude");
     plt::title("Spectrum");
